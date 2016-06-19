@@ -16,5 +16,6 @@ type (
 		UUID	 	string		`json:"uuid"`
 		Username 	string 		`json:"username"`
 		LastSeen	time.Time	`json:"lastSeen"`
+		CreatedAt	time.Time	`json:"createdAt"`
 	}
 )

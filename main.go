@@ -16,7 +16,7 @@ var addr = flag.String("addr", ":" + port, "http service address")
 func main() {
 	var err error
 
-	storageManager, err := data.NewMysqlStorageManager()
+	storageManager, err := data.NewMysqlStorageManager("chat:chat@/chat")
 
 	if err != nil {
 		log.Fatal("Could not initialize mysql storage manager")
@@ -38,5 +38,6 @@ func registerHandlers(storageManager data.StorageManager) *mux.Router {
 	r := mux.NewRouter()
 	chatHanlder := handlers.NewChatHandler(storageManager)
 	r.HandleFunc("/health", chatHanlder.IsHealthy).Methods(http.MethodGet)
+	r.HandleFunc("/user/{uuid}", chatHanlder.GetUser).Methods(http.MethodGet)
 	return r
 }

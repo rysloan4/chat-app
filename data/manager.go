@@ -8,13 +8,13 @@ import (
 type StorageManager interface {
 	CleanUp()
 
-	PutMessage(m *core.Message) error
+	InsertMessage(m *core.Message) error
 
 	GetMessages(from time.Time, until time.Time, userUUID string) ([]*core.Message, error)
 
 	GetUser(uuid string) (*core.User, error)
 
-	PutUser(u *core.User) error
+	InsertUser(u *core.User) error
 
-	PostUser(u *core.User) error
+	UpdateUser(u *core.User) error
 }
