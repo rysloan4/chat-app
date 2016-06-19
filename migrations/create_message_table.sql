@@ -1,0 +1,9 @@
+CREATE TABLE message (
+	uuid VARCHAR(36) NOT NULL,
+	from_uuid VARCHAR(128) NOT NULL,
+	to_uuid VARCHAR(128) NOT NULL,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	reat_at TIMESTAMP,
+	is_read BOOLEAN
+);
+
