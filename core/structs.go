@@ -1,15 +1,16 @@
 package core
 
-import "time"
+import (
+	"time"
+)
 
 type (
 	Message struct {
 		UUID	 	string		`json:"uuid"`
 		FromUUID 	string 		`json:"fromUUID"`
 		ToUUID 		string 		`json:"toUUID"`
-		IsRead		bool		`json:"isRead"`
+		Content         string          `json:"content"`
 		CreatedAt	time.Time	`json:"createdAt"`
-		ReadAt		time.Time	`json:"readAt"`
 	}
 
 	User struct {
@@ -17,5 +18,9 @@ type (
 		Username 	string 		`json:"username"`
 		LastSeen	time.Time	`json:"lastSeen"`
 		CreatedAt	time.Time	`json:"createdAt"`
+	}
+
+	CreateUserRequest struct {
+		Username string                `json:"username"`
 	}
 )

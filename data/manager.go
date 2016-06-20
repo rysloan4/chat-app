@@ -10,11 +10,11 @@ type StorageManager interface {
 
 	InsertMessage(m *core.Message) error
 
-	GetMessages(from time.Time, until time.Time, userUUID string) ([]*core.Message, error)
+	GetMessages(from time.Time, userUUID string) ([]*core.Message, error)
 
-	GetUser(uuid string) (*core.User, error)
+	GetUserByUsername(uuid string) (*core.User, error)
 
-	InsertUser(u *core.User) error
+	InsertUser(u *core.User) (*core.User, error)
 
 	UpdateUser(u *core.User) error
 }

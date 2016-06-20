@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Chat Example</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var usr = $("#username");
+            var new_username = $("#new_username")
+            $("#form").submit(function (e) {
+                url = "http://{{$}}/user/" + usr.val()
+                $.get(url, function(data) {
+                    data.uuid
+                })
+                return false
+            })
+            $("#form_create").submit(function (e) {
+                url = "http://{{$}}/user"
+                $.post(url, JSON.stringify({username: new_username.val()}), function(data) {
+                    data.uuid
+                })
+                return false
+            })
+        })
+</script>
+    <style type="text/css">
+        html {
+            overflow: hidden;
+        }
+        #form, #form_create{
+            padding: 0 0.5em 0 0.5em;
+            margin: 0;
+            left: 0px;
+            width: 100%;
+            overflow: hidden;
+        }
+</style>
+</head>
+<body>
+<form id="form">
+    <h2>Login</h2>
+    <input type="username" id="username" size="32" placeholder="username"/>
+    <input type="submit" value="Send"/>
+</form>
+<form id="form_create">
+    <h2>Create Account</h2>
+    <input type="username" id="new_username" size="32" placeholder="username"/>
+    <input type="submit" value="Send"/>
+</form>
+</body>
+</html>
