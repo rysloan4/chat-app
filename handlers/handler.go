@@ -5,12 +5,11 @@ import (
 	"net/http"
 	"text/template"
 
-	"github.com/gorilla/mux"
-	"chat/data"
 	"chat/core"
+	"chat/data"
+	"github.com/gorilla/mux"
 	"log"
 )
-
 
 type ChatHandler interface {
 	IsHealthy(w http.ResponseWriter, r *http.Request)
@@ -20,7 +19,7 @@ type ChatHandler interface {
 	ServeLogin(w http.ResponseWriter, r *http.Request)
 }
 
-type handler struct{
+type handler struct {
 	storageManager data.StorageManager
 }
 
@@ -82,7 +81,6 @@ func (h *handler) ServeLogin(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	loginTemplate.Execute(w, r.Host)
 }
-
 
 func (h *handler) marshalResponse(w http.ResponseWriter, response interface{}) ([]byte, error) {
 	ret, err := json.Marshal(response)
