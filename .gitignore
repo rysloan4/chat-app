@@ -5,6 +5,3 @@
 # build
 main
 
-$ deps
-Godeps/
-vendor/
