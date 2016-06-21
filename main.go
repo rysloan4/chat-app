@@ -32,7 +32,7 @@ func main() {
 	if env == "development" {
 		connectionString = "chat:chat@/chat?parseTime=true"
 	} else {
-		connectionString = os.Environ["DATABASE_URL"]
+		connectionString = os.Getenv("DATABASE_URL")
 	}
 	log.Println(connectionString)
 	storageManager, err := data.NewMysqlStorageManager(connectionString)
