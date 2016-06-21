@@ -9,9 +9,10 @@ import (
 	"chat/data"
 	"chat/handlers"
 	"github.com/gorilla/mux"
+	"os"
 )
 
-var port = "8080"
+var port = os.Getenv("PORT")
 var addr = flag.String("addr", ":"+port, "http service address")
 
 // Global hub used by connections
