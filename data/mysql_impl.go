@@ -5,28 +5,36 @@ import (
 	"time"
 
 	"database/sql"
+	// to pass linter
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/nu7hatch/gouuid"
 	"log"
 )
 
 const (
+	// QueryGetUserByUsername to get user by username
 	QueryGetUserByUsername = "SELECT * FROM USER WHERE username = ?;"
 
+	// QueryGetMessages to get messages created after a certain time
 	QueryGetMessages = "SELECT * FROM MESSAGE WHERE to_username = ? AND created_at >= ?;"
 
+	// QueryInsertMessage to insert a message
 	QueryInsertMessage = "INSERT INTO MESSAGE (uuid, from_username, to_username, content, created_at)" +
 		" VALUES (?, ?, ?, ?, ?);"
 
+	// QueryInsertUser to insert a user
 	QueryInsertUser = "INSERT INTO USER (uuid, username, last_seen, created_at) VALUES (?, ?, ?, ?);"
 
+	// QueryUpdateUserLastSeen to update when a user was last seen
 	QueryUpdateUserLastSeen = "UPDATE USER SET last_seen = ? WHERE username = ?"
 )
 
+// MysqlStorageManager is a struct for a mysql storage manageer
 type MysqlStorageManager struct {
 	mysqlSession *sql.DB
 }
 
+// NewMysqlStorageManager returns a new mysql storage manager
 func NewMysqlStorageManager(connectionString string) (StorageManager, error) {
 	db, err := sql.Open("mysql", connectionString)
 	if err != nil {
@@ -39,8 +47,10 @@ func NewMysqlStorageManager(connectionString string) (StorageManager, error) {
 	return &MysqlStorageManager{db}, nil
 }
 
+// CleanUp cleans up db connection
 func (msm *MysqlStorageManager) CleanUp() {}
 
+// InsertMessage inserts a message
 func (msm *MysqlStorageManager) InsertMessage(m *core.Message) error {
 	msgUUID, err := uuid.NewV4()
 	if err != nil {
@@ -55,6 +65,7 @@ func (msm *MysqlStorageManager) InsertMessage(m *core.Message) error {
 	return nil
 }
 
+// GetMessages gets messages
 func (msm *MysqlStorageManager) GetMessages(from time.Time, username string) ([]*core.Message, error) {
 	var uuid, toUsername, fromUsername, content string
 	var createdAt time.Time
@@ -78,6 +89,7 @@ func (msm *MysqlStorageManager) GetMessages(from time.Time, username string) ([]
 	return messages, nil
 }
 
+// GetUserByUsername gets a user by username
 func (msm *MysqlStorageManager) GetUserByUsername(u string) (*core.User, error) {
 	var uuid, username string
 	var lastSeen, createdAt time.Time
@@ -95,6 +107,7 @@ func (msm *MysqlStorageManager) GetUserByUsername(u string) (*core.User, error) 
 	return &user, nil
 }
 
+// InsertUser inserts a user
 func (msm *MysqlStorageManager) InsertUser(u *core.User) (*core.User, error) {
 	userUUID, err := uuid.NewV4()
 	if err != nil {
@@ -114,6 +127,7 @@ func (msm *MysqlStorageManager) InsertUser(u *core.User) (*core.User, error) {
 	return result, nil
 }
 
+// UpdateUserLastSeen updates when a user was last seen
 func (msm *MysqlStorageManager) UpdateUserLastSeen(username string, lastSeen time.Time) error {
 	_, err := msm.mysqlSession.Query(QueryUpdateUserLastSeen, lastSeen, username)
 	if err != nil {

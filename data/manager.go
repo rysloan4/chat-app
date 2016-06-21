@@ -5,6 +5,7 @@ import (
 	"time"
 )
 
+// StorageManager is an interface for storing data
 type StorageManager interface {
 	CleanUp()
 

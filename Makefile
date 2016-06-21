@@ -3,3 +3,6 @@ run-chat:
 
 fmt:
 	gofmt -l -s -w .
+
+lint:
+	golint ./...
