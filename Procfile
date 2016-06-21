@@ -1,1 +1,1 @@
-web: make run-chat
+web: main
