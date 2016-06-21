@@ -16,10 +16,10 @@ run-chat-dev:
 	export ENV='development' && export PORT='8080' && make build && ./main
 
 fmt:
-	gofmt -l -s -w .
+	gofmt -l -s -w *.go && gofmt  -l -s -w data/. && gofmt -l -s -w  handlers/. && gofmt -l -s -w  core/. && gofmt -l -s -w  authentication/.
 
 lint:
-	golint ./...
+	golint . && golint data/. && golint handlers/. && golint core/. && golint authentication/.
 
 build:
 	go build main.go hub.go conn.go
