@@ -12,8 +12,11 @@ import (
 	"os"
 )
 
+// Get environmnet vars
 var port = os.Getenv("PORT")
 var env = os.Getenv("ENV")
+
+// Set service address
 var addr = flag.String("addr", ":"+port, "http service address")
 
 // Global hub used by connections
