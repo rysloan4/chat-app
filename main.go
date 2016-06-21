@@ -32,8 +32,9 @@ func main() {
 	if env == "development" {
 		connectionString = "chat:chat@/chat?parseTime=true"
 	} else {
-		connectionString = "mysql://b3fd3325d24b40:2761ce0f@us-cdbr-iron-east-04.cleardb.net/heroku_7dda9dbd4cbc075?parseTime=true&reconnect=true"
+		connectionString = "b3fd3325d24b40:2761ce0f@us-cdbr-iron-east-04.cleardb.net/heroku_7dda9dbd4cbc075?parseTime=true&reconnect=true"
 	}
+	log.Println(connectionString)
 	storageManager, err := data.NewMysqlStorageManager(connectionString)
 
 	if err != nil {
