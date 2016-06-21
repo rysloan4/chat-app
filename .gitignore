@@ -1,3 +1,6 @@
 # IDE stuff
 *.iml
 .idea/
+
+# build
+main

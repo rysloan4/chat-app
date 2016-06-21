@@ -1,8 +1,12 @@
 run-chat:
-	go run main.go hub.go conn.go
+	go build main.go hub.go conn.go
+	./main
 
 fmt:
 	gofmt -l -s -w .
 
 lint:
 	golint ./...
+
+build:
+    go build main.go hub.go conn.go
