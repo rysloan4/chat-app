@@ -7,8 +7,8 @@ import (
 type (
 	Message struct {
 		UUID	 	string		`json:"uuid"`
-		FromUUID 	string 		`json:"fromUUID"`
-		ToUUID 		string 		`json:"toUUID"`
+		FromUsername 	string 		`json:"fromUsername"`
+		ToUsername 	string 		`json:"toUsername"`
 		Content         string          `json:"content"`
 		CreatedAt	time.Time	`json:"createdAt"`
 	}

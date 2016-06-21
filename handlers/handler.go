@@ -2,18 +2,17 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"text/template"
 
 	"chat/core"
 	"chat/data"
-	"github.com/gorilla/mux"
-	"log"
 )
 
+// ChatHandler is a handler for the chat app
 type ChatHandler interface {
 	IsHealthy(w http.ResponseWriter, r *http.Request)
-	GetUserByUsername(w http.ResponseWriter, r *http.Request)
 	CreateUser(w http.ResponseWriter, r *http.Request)
 	ServeHome(w http.ResponseWriter, r *http.Request)
 	ServeLogin(w http.ResponseWriter, r *http.Request)
@@ -23,6 +22,7 @@ type handler struct {
 	storageManager data.StorageManager
 }
 
+// NewChatHandler returns a ChatHandler
 func NewChatHandler(storageManager data.StorageManager) ChatHandler {
 	return &handler{storageManager}
 }
@@ -53,20 +53,6 @@ func (h *handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 
-	writeJSON(w, ret)
-}
-
-// GetUser - handler to get user
-func (h *handler) GetUserByUsername(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	username := vars["username"]
-
-	user, _ := h.storageManager.GetUserByUsername(username)
-
-	ret, err := h.marshalResponse(w, user)
-	if err != nil {
-		return
-	}
 	writeJSON(w, ret)
 }
 

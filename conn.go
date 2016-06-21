@@ -5,13 +5,12 @@
 package main
 
 import (
-	_ "bytes"
+	"bytes"
+	"encoding/json"
 	"log"
-	"net/http"
 	"time"
 
 	"chat/core"
-	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
 )
 
@@ -24,9 +23,6 @@ const (
 
 	// Send pings to peer with this period. Must be less than pongWait.
 	pingPeriod = (pongWait * 9) / 10
-
-	// Maximum message size allowed from peer.
-	maxMessageSize = 512
 )
 
 var (
@@ -48,7 +44,7 @@ type Conn struct {
 	send chan []byte
 
 	// userUUID is the userUUID of the connected user
-	userUUID string
+	username string
 }
 
 // readPump pumps messages from the websocket connection to the hub.
@@ -60,20 +56,18 @@ func (c *Conn) readPump() {
 		hub.unregister <- c
 		c.ws.Close()
 	}()
-	c.ws.SetReadLimit(maxMessageSize)
 	c.ws.SetReadDeadline(time.Now().Add(pongWait))
 	c.ws.SetPongHandler(func(string) error { c.ws.SetReadDeadline(time.Now().Add(pongWait)); return nil })
 	for {
-		message := core.Message{}
-		err := c.ws.ReadJSON(&message)
+		_, message, err := c.ws.ReadMessage()
 		if err != nil {
 			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway) {
 				log.Printf("error: %v", err)
 			}
 			break
 		}
-		//message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
-		//hub.broadcast <- message
+		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
+		hub.broadcast <- message
 	}
 }
 
@@ -93,9 +87,14 @@ func (c *Conn) writePump() {
 	for {
 		select {
 		case message, ok := <-c.send:
+			m := core.Message{}
+			json.Unmarshal(message, &m)
+			content, err := json.Marshal(m.Content)
+
+			if err != nil {
+				return
+			}
 			if !ok {
-				// The hub closed the channel.
-				// here we should not user is logged off (connection should have that info)
 				c.write(websocket.CloseMessage, []byte{})
 				return
 			}
@@ -106,8 +105,9 @@ func (c *Conn) writePump() {
 				return
 			}
 			// we want to check message and only write if message.touuid matches c.uuid
-			w.Write(message)
-
+			if m.ToUsername == c.username {
+				w.Write(content)
+			}
 			// Add queued chat messages to the current websocket message.
 			n := len(c.send)
 			for i := 0; i < n; i++ {
@@ -124,20 +124,4 @@ func (c *Conn) writePump() {
 			}
 		}
 	}
-}
-
-// serveWs handles websocket requests from the peer.
-func serveWs(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	uuid := vars["uuid"]
-
-	ws, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Println(err)
-		return
-	}
-	conn := &Conn{send: make(chan []byte, 256), ws: ws, userUUID: uuid}
-	hub.register <- conn
-	go conn.writePump()
-	conn.readPump()
 }

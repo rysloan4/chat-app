@@ -12,9 +12,9 @@ type StorageManager interface {
 
 	GetMessages(from time.Time, userUUID string) ([]*core.Message, error)
 
-	GetUserByUsername(uuid string) (*core.User, error)
+	GetUserByUsername(username string) (*core.User, error)
 
 	InsertUser(u *core.User) (*core.User, error)
 
-	UpdateUser(u *core.User) error
+	UpdateUserLastSeen(username string, lastSeen time.Time) error
 }

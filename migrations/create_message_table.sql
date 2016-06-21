@@ -1,8 +1,8 @@
 CREATE TABLE message (
-	uuid VARCHAR(36) NOT NULL,
-	from_uuid VARCHAR(128) NOT NULL,
-	to_uuid VARCHAR(128) NOT NULL,
-	content TEXT,
-	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+  	uuid VARCHAR(36) NOT NULL,
+  	from_username VARCHAR(128) NOT NULL,
+  	to_username VARCHAR(128) NOT NULL,
+  	content TEXT,
+  	created_at DATETIME NOT NULL
+  );
 

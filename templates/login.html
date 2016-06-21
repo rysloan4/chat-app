@@ -8,16 +8,14 @@
             var usr = $("#username");
             var new_username = $("#new_username")
             $("#form").submit(function (e) {
-                url = "http://{{$}}/user/" + usr.val()
-                $.get(url, function(data) {
-                    data.uuid
-                })
+                url = "http://{{$}}/chat/" + usr.val()
+                window.location.href = url
                 return false
             })
             $("#form_create").submit(function (e) {
                 url = "http://{{$}}/user"
                 $.post(url, JSON.stringify({username: new_username.val()}), function(data) {
-                    data.uuid
+                   window.location.href = "http://{{$}}/chat/" + data.username
                 })
                 return false
             })
