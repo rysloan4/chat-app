@@ -99,3 +99,5 @@ func handleWs(w http.ResponseWriter, r *http.Request) {
 	go conn.writePump()
 	conn.readPump()
 }
+
+//TODO: handler tests, auth test, hub test, integration test, answer questions, submit
