@@ -12,8 +12,8 @@ clean:
 heroku: $(DOCKER_CMD)
 	heroku container:push web
 
-run-chat:
-	make build && ./main
+run-chat-dev:
+	export ENV='development' && export PORT='8080' && make build && ./main
 
 fmt:
 	gofmt -l -s -w .

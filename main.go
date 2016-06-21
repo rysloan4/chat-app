@@ -13,6 +13,7 @@ import (
 )
 
 var port = os.Getenv("PORT")
+var env = os.Getenv("ENV")
 var addr = flag.String("addr", ":"+port, "http service address")
 
 // Global hub used by connections
@@ -26,7 +27,14 @@ var hub = Hub{
 func main() {
 	var err error
 
-	storageManager, err := data.NewMysqlStorageManager("chat:chat@/chat?parseTime=true")
+	var connectionString string
+
+	if env == "development" {
+		connectionString = "chat:chat@/chat?parseTime=true"
+	} else {
+		connectionString = "mysql://b3fd3325d24b40:2761ce0f@us-cdbr-iron-east-04.cleardb.net/heroku_7dda9dbd4cbc075?parseTime=true&reconnect=true"
+	}
+	storageManager, err := data.NewMysqlStorageManager(connectionString)
 
 	if err != nil {
 		log.Fatal("Could not initialize mysql storage manager")

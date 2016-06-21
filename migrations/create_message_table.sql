@@ -5,4 +5,3 @@ CREATE TABLE message (
   	content TEXT,
   	created_at DATETIME NOT NULL
   );
-
