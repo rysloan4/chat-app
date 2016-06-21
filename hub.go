@@ -14,7 +14,7 @@ import (
 )
 
 // Hub maintains the set of active connections and broadcasts messages to the
-// connections.
+// connections. It also manages authentication and user/message state.
 type Hub struct {
 	// Registered connections.
 	connections map[*Conn]bool
@@ -44,18 +44,11 @@ func (h *Hub) run(storageManager data.StorageManager, authenticator authenticati
 		case conn := <-h.register:
 			if h.authenticator.Authenticate(conn.username) {
 				msgs := h.fetchUnreadMessages(conn.username)
-				for _, msg := range msgs {
-					out, err := json.Marshal(msg.Content)
-					if err != nil {
-						log.Println(err)
-						break
-					}
-					conn.write(1, out)
-				}
+				conn.writeMessageBatch(msgs)
 				h.connections[conn] = true
 			} else {
-				conn.ws.WriteMessage(1, []byte("Unauthenticated Username"))
-				conn.ws.Close()
+				conn.write(1, []byte("Unauthenticated Username"))
+				close(conn.send)
 			}
 		case conn := <-h.unregister:
 			if _, ok := h.connections[conn]; ok {

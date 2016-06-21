@@ -125,3 +125,14 @@ func (c *Conn) writePump() {
 		}
 	}
 }
+
+func (c *Conn) writeMessageBatch(msgs []*core.Message) {
+	for _, msg := range msgs {
+		out, err := json.Marshal(msg.Content)
+		if err != nil {
+			log.Println(err)
+			break
+		}
+		c.write(1, out)
+	}
+}

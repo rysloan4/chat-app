@@ -4,8 +4,8 @@ import (
 	"chat/core"
 	"time"
 
-	 "database/sql"
-	 _ "github.com/go-sql-driver/mysql"
+	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/nu7hatch/gouuid"
 	"log"
 )
@@ -66,11 +66,11 @@ func (msm *MysqlStorageManager) GetMessages(from time.Time, username string) ([]
 	for rows.Next() {
 		rows.Scan(&uuid, &fromUsername, &toUsername, &content, &createdAt)
 		message := core.Message{
-			UUID: uuid,
+			UUID:         uuid,
 			FromUsername: fromUsername,
-			ToUsername: toUsername,
-			Content: content,
-			CreatedAt: createdAt,
+			ToUsername:   toUsername,
+			Content:      content,
+			CreatedAt:    createdAt,
 		}
 		messages = append(messages, &message)
 	}
@@ -86,10 +86,10 @@ func (msm *MysqlStorageManager) GetUserByUsername(u string) (*core.User, error) 
 	result.Scan(&uuid, &username, &lastSeen, &createdAt)
 
 	user := core.User{
-		UUID: 		uuid,
-		Username: 	username,
-		CreatedAt: 	createdAt,
-		LastSeen:  	lastSeen,
+		UUID:      uuid,
+		Username:  username,
+		CreatedAt: createdAt,
+		LastSeen:  lastSeen,
 	}
 
 	return &user, nil

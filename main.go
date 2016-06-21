@@ -14,6 +14,7 @@ import (
 var port = "8080"
 var addr = flag.String("addr", ":"+port, "http service address")
 
+// Global hub used by connections
 var hub = Hub{
 	broadcast:   make(chan []byte),
 	register:    make(chan *Conn),
