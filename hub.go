@@ -15,7 +15,6 @@ import (
 
 // Hub maintains the set of active connections and broadcasts messages to the
 // connections.
-
 type Hub struct {
 	// Registered connections.
 	connections map[*Conn]bool
@@ -36,13 +35,6 @@ type Hub struct {
 	authenticator authentication.Authenticator
 }
 
-var hub = Hub{
-	broadcast:   make(chan []byte),
-	register:    make(chan *Conn),
-	unregister:  make(chan *Conn),
-	connections: make(map[*Conn]bool),
-}
-
 func (h *Hub) run(storageManager data.StorageManager, authenticator authentication.Authenticator) {
 	h.storageManger = storageManager
 	h.authenticator = authenticator
@@ -58,7 +50,7 @@ func (h *Hub) run(storageManager data.StorageManager, authenticator authenticati
 						log.Println(err)
 						break
 					}
-					conn.ws.WriteMessage(1, out)
+					conn.write(1, out)
 				}
 				h.connections[conn] = true
 			} else {
@@ -97,14 +89,14 @@ func (h *Hub) logUserOff(username string) {
 }
 
 func (h *Hub) fetchUnreadMessages(username string) []*core.Message {
-	log.Println("fetching unread messages for: ", username)
 	usr, _ := h.storageManger.GetUserByUsername(username)
 	lastSeen := usr.LastSeen
 	msgs, err := h.storageManger.GetMessages(lastSeen, username)
+
 	if err != nil {
 		log.Println(err)
 		return nil
 	}
-	log.Println(msgs)
+
 	return msgs
 }

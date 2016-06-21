@@ -14,6 +14,13 @@ import (
 var port = "8080"
 var addr = flag.String("addr", ":"+port, "http service address")
 
+var hub = Hub{
+	broadcast:   make(chan []byte),
+	register:    make(chan *Conn),
+	unregister:  make(chan *Conn),
+	connections: make(map[*Conn]bool),
+}
+
 func main() {
 	var err error
 
@@ -40,19 +47,19 @@ func main() {
 // register handlers & setup routing
 func registerHandlers(storageManager data.StorageManager) *mux.Router {
 	r := mux.NewRouter()
-	chatHanlder := handlers.NewChatHandler(storageManager)
+	chatHandler := handlers.NewChatHandler(storageManager)
 
 	// Health
-	r.HandleFunc("/health", chatHanlder.IsHealthy).Methods(http.MethodGet)
+	r.HandleFunc("/health", chatHandler.IsHealthy).Methods(http.MethodGet)
 
 	// Create User
-	r.HandleFunc("/user", chatHanlder.CreateUser).Methods(http.MethodPost)
+	r.HandleFunc("/user", chatHandler.CreateUser).Methods(http.MethodPost)
 
 	// Render chat page
-	r.HandleFunc("/chat/{username}", chatHanlder.ServeHome).Methods(http.MethodGet)
+	r.HandleFunc("/chat/{username}", chatHandler.ServeHome).Methods(http.MethodGet)
 
 	// Render login page
-	r.HandleFunc("/login", chatHanlder.ServeLogin).Methods(http.MethodGet)
+	r.HandleFunc("/login", chatHandler.ServeLogin).Methods(http.MethodGet)
 
 	// Websocket endpoint
 	r.HandleFunc("/ws/{username}", handleWs)
