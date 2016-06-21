@@ -4,7 +4,6 @@ MAINTAINER Ryan Sloan <rysloan4@gmail.com>
 
 WORKDIR "/opt"
 
-ADD .docker_build/main /opt/bin/main
-ADD ./templates /opt/templates
+ADD .docker_build/chat /opt/bin/chat
 
-CMD ["/opt/bin/main"]
+CMD ["/opt/bin/chat"]

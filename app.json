@@ -2,5 +2,5 @@
   "name": "chat",
   "description": "Chat App",
   "image": "heroku/go:1.6",
-  "mount_dir": "src/main",
+  "mount_dir": "src/chat",
 }
