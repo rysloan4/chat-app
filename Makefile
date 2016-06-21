@@ -23,3 +23,6 @@ lint:
 
 build:
 	go build main.go hub.go conn.go
+
+test:
+	go test chat && go test chat/handlers
