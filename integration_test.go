@@ -1,22 +1,19 @@
 package main
 
 import (
-	"testing"
 	"chat/data"
+	"testing"
 	//"chat/handlers"
-	"net/http"
 	"bytes"
-	"github.com/stretchr/testify/assert"
-	"time"
 	"chat/authentication"
 	"chat/handlers"
+	"github.com/stretchr/testify/assert"
+	"net/http"
+	"time"
 )
 
-
 type DoNothingResponseWriter struct {
-
 }
-
 
 func (d DoNothingResponseWriter) Header() http.Header {
 	return http.Header{}
@@ -59,8 +56,9 @@ func TestCanRegisterConnection(t *testing.T) {
 }
 
 func TestCanRejectUnauthUser(t *testing.T) {
-
-
+	//TODO implement
 }
 
-func TestCanSendMessage(t *testing.T) {}
+func TestCanSendMessage(t *testing.T) {
+	//TODO implement
+}

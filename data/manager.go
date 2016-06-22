@@ -2,8 +2,8 @@ package data
 
 import (
 	"chat/core"
-	"time"
 	"database/sql"
+	"time"
 )
 
 // StorageManager is an interface for storing data

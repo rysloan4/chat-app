@@ -137,6 +137,7 @@ func (msm *MysqlStorageManager) UpdateUserLastSeen(username string, lastSeen tim
 	return nil
 }
 
+// GetDB returns underlying connection used by manager
 func (msm *MysqlStorageManager) GetDB() *sql.DB {
 	return msm.mysqlSession
 }
