@@ -41,7 +41,7 @@ func main() {
 	storageManager, err := data.NewMysqlStorageManager(connectionString)
 
 	if err != nil {
-		log.Fatal("Could not initialize mysql storage manager")
+		log.Fatalf("Could not initialize mysql storage manager: %s", err)
 	}
 
 	authenticator := authentication.NewUserNameAuthenticator(storageManager)
@@ -100,4 +100,4 @@ func handleWs(w http.ResponseWriter, r *http.Request) {
 	conn.readPump()
 }
 
-//TODO: handler tests, auth test, hub test, integration test, answer questions, submit
+//TODO: auth tests, integration test, answer questions, submit

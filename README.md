@@ -1,9 +1,3 @@
-## Install Dependencies
-```
-go get github.com/tools/godep
-godep save
-```
-
 ## SetupDB
 
 ```
@@ -46,5 +40,5 @@ make build
 ```
 
 ## Production
-It was my intention to deploy the chat app to heroku, however it is unclear whether cleardb (heroku's mysql provider) supports go. Trying to work through the bug but may not have time.
+It was my intention to deploy the chat app to heroku and it made some progress towards that, however it is unclear whether cleardb (heroku's mysql) supports go. Trying to work through the bug but may not have time.
 

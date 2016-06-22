@@ -22,7 +22,7 @@ lint:
 	golint . && golint data/. && golint handlers/. && golint core/. && golint authentication/.
 
 build:
-	go build main.go hub.go conn.go
+	godep go build main.go hub.go conn.go
 
 test:
-	go test chat && go test chat/handlers
+	go test -cover chat && go test -cover chat/handlers
