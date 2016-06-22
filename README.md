@@ -40,9 +40,18 @@ make build
 ```
 
 ## Production
-It was my intention to deploy the chat app to heroku and it made some progress towards that, however it is unclear whether cleardb (heroku's mysql) supports go. Trying to work through the bug but may not have time.
+[https://nameless-savannah-87003.herokuapp.com/login](https://nameless-savannah-87003.herokuapp.com/login0) to login or create a username
 
-### Production DB
+Deploy
+
+```
+git push heroku master
+```
+Logs
+```
+heroku logs
+```
+Production DB
 ```
 mysql heroku_7dda9dbd4cbc075 --host=us-cdbr-iron-east-04.cleardb.net --user=b3fd3325d24b40 --password=2761ce0f
 ```

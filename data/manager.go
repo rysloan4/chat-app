@@ -3,6 +3,7 @@ package data
 import (
 	"chat/core"
 	"time"
+	"database/sql"
 )
 
 // StorageManager is an interface for storing data
@@ -18,4 +19,6 @@ type StorageManager interface {
 	InsertUser(u *core.User) (*core.User, error)
 
 	UpdateUserLastSeen(username string, lastSeen time.Time) error
+
+	GetDB() *sql.DB
 }

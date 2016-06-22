@@ -12,6 +12,14 @@ import (
 	"os"
 )
 
+const (
+	// LocalConnectionString is for connecting to mysql locally
+	LocalConnectionString = "chat:chat@/chat?parseTime=true"
+
+	// ProductionConnectionString is for connecting to mysql in production
+	ProductionConnectionString = "b3fd3325d24b40:2761ce0f@tcp(us-cdbr-iron-east-04.cleardb.net:3306)/heroku_7dda9dbd4cbc075?parseTime=true"
+)
+
 // Get environmnet vars
 var port = os.Getenv("PORT")
 var env = os.Getenv("ENV")
@@ -33,9 +41,9 @@ func main() {
 	var connectionString string
 
 	if env == "development" {
-		connectionString = "chat:chat@/chat?parseTime=true"
+		connectionString = LocalConnectionString
 	} else {
-		connectionString = "b3fd3325d24b40:2761ce0f@tcp(us-cdbr-iron-east-04.cleardb.net:3306)/heroku_7dda9dbd4cbc075?parseTime=true"
+		connectionString = ProductionConnectionString
 	}
 
 	storageManager, err := data.NewMysqlStorageManager(connectionString)

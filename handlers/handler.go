@@ -52,7 +52,6 @@ func (h *handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-
 	writeJSON(w, ret)
 }
 

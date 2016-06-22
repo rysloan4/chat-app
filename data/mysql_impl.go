@@ -136,3 +136,7 @@ func (msm *MysqlStorageManager) UpdateUserLastSeen(username string, lastSeen tim
 	}
 	return nil
 }
+
+func (msm *MysqlStorageManager) GetDB() *sql.DB {
+	return msm.mysqlSession
+}

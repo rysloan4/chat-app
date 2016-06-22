@@ -4,6 +4,7 @@ import (
 	"github.com/stretchr/testify/mock"
 	"chat/core"
 	"time"
+	"database/sql"
 )
 
 // MockStorage for tests
@@ -54,3 +55,6 @@ func (msm *MockStorageManager) UpdateUserLastSeen(username string, lastSeen time
 	return r0
 }
 
+func (msm *MockStorageManager) GetDB() *sql.DB {
+	return nil
+}
