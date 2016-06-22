@@ -55,3 +55,9 @@ Production DB
 ```
 mysql heroku_7dda9dbd4cbc075 --host=us-cdbr-iron-east-04.cleardb.net --user=b3fd3325d24b40 --password=2761ce0f
 ```
+
+## Next Steps
+
+- Better test coverage and integration tests
+- Make Hub an interface so implementation can be swapped out
+- Move ui to standalone app using react (general design and ui improvements included)
