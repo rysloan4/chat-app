@@ -35,7 +35,7 @@ func main() {
 	if env == "development" {
 		connectionString = "chat:chat@/chat?parseTime=true"
 	} else {
-		connectionString = os.Getenv("CLEARDB_DATABASE_URL")
+		connectionString = "b3fd3325d24b40:2761ce0f@tcp(us-cdbr-iron-east-04.cleardb.net)/heroku_7dda9dbd4cbc075?reconnect=true"
 	}
 
 	storageManager, err := data.NewMysqlStorageManager(connectionString)
